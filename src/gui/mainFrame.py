@@ -1,5 +1,5 @@
 import tkinter as tk
-from src.views.userView import create_widgets
+from src.gui.controllers.userView import create_widgets
 
 class Application(tk.Frame):
     def __init__(self, master=None):
