@@ -1,7 +1,5 @@
 import peewee as pw
-
 db = pw.SqliteDatabase('pymazon.db')
 
-
-def updateDb():
+def fillDatabaseTables():
     pass

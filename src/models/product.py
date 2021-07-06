@@ -3,7 +3,7 @@ import peewee as pw
 from src.models.category import Category
 from src.models.tag import Tag
 
-db = pw.SqliteDatabase('my_app.db', pragmas={'foreign_keys': 1})
+db = pw.SqliteDatabase('pymazon.db', pragmas={'foreign_keys': 1})
 
 class Product(pw.Model):
 

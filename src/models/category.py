@@ -1,6 +1,5 @@
 import peewee as pw
-
-db = pw.SqliteDatabase('my_app.db', pragmas={'foreign_keys': 1})
+db = pw.SqliteDatabase('pymazon.db', pragmas={'foreign_keys': 1})
 
 class Category(pw.Model):
     id = pw.AutoField()

@@ -3,7 +3,7 @@ import peewee as pw
 from src.models.product import Product
 from src.models.user import User
 
-db = pw.SqliteDatabase('my_app.db', pragmas={'foreign_keys': 1})
+db = pw.SqliteDatabase('pymazon.db', pragmas={'foreign_keys': 1})
 
 class Purchase(pw.Model):
     id = pw.AutoField()
