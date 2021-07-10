@@ -9,37 +9,47 @@ def mailSenderView(self):
     displaySubjectAndBodyFields(self)
     displaySendButton(self)
 
-def displayUserList(self):
-    Label(self, text="User list").place(x=700, y=10)
+def displayUserList(self): # TODO: Change the function to use real data when requesting the DB
+    Label(self, text="User list").place(x=680, y=10)
 
     userScrollbar = Scrollbar(self)
-    users = Listbox(self, width=80, height=31, selectmode="multiple", yscrollcommand=userScrollbar.set)
-    users.place(x=696, y=30)
+    self.users = Listbox(self, width=80, height=31, selectmode="multiple", yscrollcommand=userScrollbar.set)
+    userScrollbar.config(command=self.users.yview)
+    self.users.place(x=680, y=30)
 
+    i = 0
     for user in getUser(0):
-        users.insert(END, user)
-
-    userScrollbar.config(command=users.yview)
+        self.users.insert(END, user)
+        self.users.itemconfig(i, bg="#a0c0d5")
+        i += 1
 
 def displaySubjectAndBodyFields(self):
     Label(self, text="Mail subject").place(x=10, y=10)
-    self.subjectField = Text(self, height=1)
-    self.subjectField.place(x=10, y=30)
-    self.subjectField.insert(tk.END, "")
+    subjectField = Text(self, height=1)
+    subjectField.place(x=10, y=30)
+    subjectField.insert(tk.END, "")
 
     Label(self, text="Mail body").place(x=10, y=50)
-    self.bodyField = Text(self, height=28)
-    self.bodyField.place(x=10, y=70)
-    self.bodyField.insert(tk.END, "")
+    bodyField = Text(self, height=28)
+    bodyField.place(x=10, y=70)
+    bodyField.insert(tk.END, "")
 
 def displaySendButton(self):
     sendButton = Button(self, text="Send", width=10, command=lambda: sendMail(self))
     sendButton.place(x=290, y=535)
 
 def sendMail(self):
-    print("clicked")
+    pass
     #MailSender(
-    #    recipients="",
+    #    recipients=getSelectedUsers(self),
     #    subject=self.subjectField.get("1.0", "end-1c"),
     #    body=self.bodyField.get("1.0", "end-1c")
     #)
+
+def getSelectedUsers(self):
+    selectedUsers = []
+    listbox = self.users.curselection()
+    for i in listbox:
+        user = self.users.get(i)
+        selectedUsers.append(user)
+    return selectedUsers
