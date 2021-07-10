@@ -1,6 +1,8 @@
+from src.models.user import User
+
 
 def getUser(id):
-    if id is 0:
-        pass # get all
+    if id == 0:
+        return User.get()
     else:
-        pass # get by id
+        return User.get_by_id(id)
