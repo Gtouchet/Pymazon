@@ -13,7 +13,7 @@ class MailSender:
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
         server.login("pymazonesgi@gmail.com", "Abcd1234!")
         message = self.createMessage()
-        for recipient in self.recipients.split(";"):
+        for recipient in self.recipients:
             server.sendmail("PymazonEsgi", recipient, message)
         server.quit()
 
