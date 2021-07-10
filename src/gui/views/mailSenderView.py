@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
-from src.controllers.cruds.userCrud import getUser
+
+from src.controllers.cruds.userCrud.get import getUser
 from src.services.mailSender import MailSender
 
 
@@ -19,7 +20,7 @@ def displayUserList(self): # TODO: Change the function to use real data when req
 
     i = 0
     for user in getUser(0):
-        self.users.insert(END, user)
+        self.users.insert(END, user.mailAddress)
         self.users.itemconfig(i, bg="#eaeaea" if i % 2 == 0 else "#dadada")
         i += 1
 
