@@ -1,0 +1,5 @@
+
+def getUser(id):
+    users = ("jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude",
+             "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude")
+    return users

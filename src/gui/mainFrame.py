@@ -11,7 +11,7 @@ class Application(tk.Frame):
         super().__init__(master)
         self.master = master
         self.pack()
-        master.title("PYMAZON")
+        master.title("Pymazon")
         master.geometry("1200x600")
         tab_control = ttk.Notebook(master)
 
