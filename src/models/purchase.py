@@ -9,11 +9,10 @@ class Purchase(pw.Model):
     id = pw.AutoField()
     name = pw.CharField()
     purchaseDate = pw.DateTimeField()
-    sendingDate = pw.DateTimeField()
-    receptionDate = pw.DateTimeField()
+    sendingDate = pw.DateTimeField(null=True)
+    receptionDate = pw.DateTimeField(null=True)
     status = pw.CharField()
     deliveryAddress = pw.CharField()
-    deliveryZipCode = pw.DateTimeField()
     user = pw.ForeignKeyField(User)
     product = pw.ForeignKeyField(Product)
     

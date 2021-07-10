@@ -8,8 +8,7 @@ class User(pw.Model):
     firstName = pw.CharField()
     lastName = pw.CharField()
     address = pw.CharField()
-    zipCode = pw.IntegerField()
     mailAddress = pw.CharField()
-
+    createdDate = pw.DateTimeField()
     class Meta:
         database = db
