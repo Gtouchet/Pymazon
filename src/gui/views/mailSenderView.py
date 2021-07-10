@@ -20,31 +20,30 @@ def displayUserList(self): # TODO: Change the function to use real data when req
     i = 0
     for user in getUser(0):
         self.users.insert(END, user)
-        self.users.itemconfig(i, bg="#a0c0d5")
+        self.users.itemconfig(i, bg="#eaeaea" if i % 2 == 0 else "#dadada")
         i += 1
 
 def displaySubjectAndBodyFields(self):
     Label(self, text="Mail subject").place(x=10, y=10)
-    subjectField = Text(self, height=1)
-    subjectField.place(x=10, y=30)
-    subjectField.insert(tk.END, "")
+    self.subjectField = Text(self, height=1)
+    self.subjectField.place(x=10, y=30)
+    self.subjectField.insert(tk.END, "")
 
     Label(self, text="Mail body").place(x=10, y=50)
-    bodyField = Text(self, height=28)
-    bodyField.place(x=10, y=70)
-    bodyField.insert(tk.END, "")
+    self.bodyField = Text(self, height=28)
+    self.bodyField.place(x=10, y=70)
+    self.bodyField.insert(tk.END, "")
 
 def displaySendButton(self):
     sendButton = Button(self, text="Send", width=10, command=lambda: sendMail(self))
     sendButton.place(x=290, y=535)
 
 def sendMail(self):
-    pass
-    #MailSender(
-    #    recipients=getSelectedUsers(self),
-    #    subject=self.subjectField.get("1.0", "end-1c"),
-    #    body=self.bodyField.get("1.0", "end-1c")
-    #)
+    MailSender(
+        recipients=getSelectedUsers(self),
+        subject=self.subjectField.get("1.0", "end-1c"),
+        body=self.bodyField.get("1.0", "end-1c")
+    )
 
 def getSelectedUsers(self):
     selectedUsers = []

@@ -1,5 +1,4 @@
 
 def getUser(id):
-    users = ("jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude",
-             "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude", "jean", "jacques", "robert", "geraldine", "gertrude")
+    users = ("guillaumetouchet921@gmail.com", "guillaumetouchet921avecUneFaute@gmail.com", "guillaumetouchet921@gmail.fr??", "robert@gmail.com")
     return users
