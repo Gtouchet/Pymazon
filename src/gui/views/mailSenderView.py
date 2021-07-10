@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter as tk
 from src.controllers.cruds.userCrud.get import getUser
+from src.models.user import User
 from src.services.mailSender import MailSender
 
 
@@ -9,7 +10,7 @@ def mailSenderView(self):
     displaySubjectAndBodyFields(self)
     displaySendButton(self)
 
-def displayUserList(self): # Todo: sort users by alphabetical order
+def displayUserList(self):
     Label(self, text="User list").place(x=680, y=10)
 
     userScrollbar = Scrollbar(self)
@@ -18,7 +19,7 @@ def displayUserList(self): # Todo: sort users by alphabetical order
     self.users.place(x=680, y=30)
 
     i = 0
-    for user in getUser(0):
+    for user in getUser(0).order_by(User.firstName):
         self.users.insert(END, [user.firstName, user.lastName, user.mailAddress])
         self.users.itemconfig(i, bg="#eaeaea" if i % 2 == 0 else "#dadada")
         i += 1
