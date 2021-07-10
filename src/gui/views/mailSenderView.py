@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter as tk
-
 from src.controllers.cruds.userCrud.get import getUser
 from src.services.mailSender import MailSender
 
@@ -10,7 +9,7 @@ def mailSenderView(self):
     displaySubjectAndBodyFields(self)
     displaySendButton(self)
 
-def displayUserList(self): # TODO: Change the function to use real data when requesting the DB
+def displayUserList(self): # Todo: sort users by alphabetical order
     Label(self, text="User list").place(x=680, y=10)
 
     userScrollbar = Scrollbar(self)
@@ -20,7 +19,7 @@ def displayUserList(self): # TODO: Change the function to use real data when req
 
     i = 0
     for user in getUser(0):
-        self.users.insert(END, user.mailAddress)
+        self.users.insert(END, [user.firstName, user.lastName, user.mailAddress])
         self.users.itemconfig(i, bg="#eaeaea" if i % 2 == 0 else "#dadada")
         i += 1
 
@@ -51,5 +50,5 @@ def getSelectedUsers(self):
     listbox = self.users.curselection()
     for i in listbox:
         user = self.users.get(i)
-        selectedUsers.append(user)
+        selectedUsers.append(user[2])
     return selectedUsers
