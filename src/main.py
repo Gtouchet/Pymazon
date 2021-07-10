@@ -1,7 +1,7 @@
 from pathlib import Path
 from src.controllers.fillDatabaseTables import fillDatabaseTables
 from src.controllers.createDatabaseTables import createDatabaseTables
-from src.views.mainFrame import launchApp
+from src.gui.mainFrame import launchApp
 
 if __name__ == "__main__":
 
