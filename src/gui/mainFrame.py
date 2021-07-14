@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
 
-from src.gui.controllers.home import home_interface
-from src.gui.controllers.graphic import graphic_interface
-from src.gui.controllers.db import db_interface
+from src.gui.views.home import home_interface
+from src.gui.views.graphic import graphic_interface
+from src.gui.views.db import db_interface
 from src.gui.views.mailSenderView import mailSenderView
 
 class Application(tk.Frame):
@@ -12,7 +12,7 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         master.title("Pymazon")
-        master.geometry("1200x600")
+        master.geometry("1200x800")
         tab_control = ttk.Notebook(master)
 
         #init onglet
