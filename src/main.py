@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
         generateData.generateAllData(300, 500, 1000)
 
-    if not Path("./logs.txt").exists():
-        open("logs.txt", "x")
+    if not Path("./logs.json").exists():
+        open("logs.json", "x")
 
     launchApp()
