@@ -6,6 +6,7 @@ from tkinter.ttk import *
 def statisticsView(self):
     data = readLogFile()
     displayTotalLogCount(self, data)
+    displayDateCounters(self, data)
     displayActionsCounters(self, data)
     pass
 
@@ -15,6 +16,28 @@ def readLogFile():
 def displayTotalLogCount(self, data):
     Label(self, text="Total log counter : " + str(len(data))).place(x=540, y=15)
     pass
+
+def displayDateCounters(self, data):
+    values = {}
+    for log in data:
+        date = log["date"].split(" ")[0]
+        if date not in values.keys():
+            values[date] = 1
+        else:
+            values[date] += 1
+
+    dates = Treeview(self, columns=("Date", "Count"), height=len(values)*1)
+    dates.column("Date", width=80, anchor=W)
+    dates.heading("Date", text="Date")
+    dates.column("Count", width=50, anchor=CENTER)
+    dates.heading("Count", text="Count")
+    dates['show'] = 'headings'
+    dates.place(x=10, y=50)
+
+    y = 0
+    for value in values:
+        dates.insert('', 'end', values=(value.split(" ")[0], str(values[value]), str(round(values[value] / len(data) * 100)) + "%"))
+        y += 1
 
 def displayActionsCounters(self, data):
     values = {}
@@ -32,7 +55,7 @@ def displayActionsCounters(self, data):
     actions.column("Percent", width=55, anchor=CENTER)
     actions.heading("Percent", text="Percent")
     actions['show'] = 'headings'
-    actions.place(x=10, y=50)
+    actions.place(x=155, y=50)
 
     y = 0
     for value in values:
