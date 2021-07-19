@@ -36,7 +36,7 @@ def displayDateCounters(self, data):
 
     y = 0
     for value in values:
-        dates.insert('', 'end', values=(value.split(" ")[0], str(values[value]), str(round(values[value] / len(data) * 100)) + "%"))
+        dates.insert('', 'end', values=(value.split(" ")[0], str(values[value])))
         y += 1
 
 def displayActionsCounters(self, data):
