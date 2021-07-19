@@ -26,17 +26,19 @@ def displayDateCounters(self, data):
         else:
             values[date] += 1
 
-    dates = Treeview(self, columns=("Date", "Count"), height=len(values)*1)
+    dates = Treeview(self, columns=("Date", "Count", "Percent"), height=len(values)*1)
     dates.column("Date", width=80, anchor=W)
     dates.heading("Date", text="Date")
     dates.column("Count", width=50, anchor=CENTER)
     dates.heading("Count", text="Count")
+    dates.column("Percent", width=55, anchor=CENTER)
+    dates.heading("Percent", text="Percent")
     dates['show'] = 'headings'
     dates.place(x=10, y=50)
 
     y = 0
     for value in values:
-        dates.insert('', 'end', values=(value.split(" ")[0], str(values[value])))
+        dates.insert('', 'end', values=(value.split(" ")[0], str(values[value]), str(round(values[value] / len(data) * 100))+"%"))
         y += 1
 
 def displayActionsCounters(self, data):
@@ -55,7 +57,7 @@ def displayActionsCounters(self, data):
     actions.column("Percent", width=55, anchor=CENTER)
     actions.heading("Percent", text="Percent")
     actions['show'] = 'headings'
-    actions.place(x=155, y=50)
+    actions.place(x=210, y=50)
 
     y = 0
     for value in values:
