@@ -5,6 +5,8 @@ from src.gui.views.home import home_interface
 from src.gui.views.graphic import graphic_interface
 from src.gui.views.db import db_interface
 from src.gui.views.mailSenderView import mailSenderView
+from src.gui.views.statistics import statisticsView
+
 
 class Application(tk.Frame):
     def __init__(self, master=None):
@@ -33,6 +35,7 @@ class Application(tk.Frame):
         graphic_interface(graphic)
         db_interface(DB)
         mailSenderView(mailSender)
+        statisticsView(statistics)
 
         tab_control.pack(expand=1, fill='both')
 

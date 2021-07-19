@@ -3,8 +3,8 @@
     "date": "18/07/2021 23:51:54",
     "action": "Mail sent",
     "data": {
-        "subject": "zef",
-        "body": "ff",
+        "subject": "sujet1",
+        "body": "body1",
         "recipients": [
             "arnaudemenard@gallet.org"
         ]
@@ -15,8 +15,8 @@
     "date": "18/07/2021 23:52:26",
     "action": "Mail sent",
     "data": {
-        "subject": "zef",
-        "body": "ffggg",
+        "subject": "sujet2",
+        "body": "body2",
         "recipients": [
             "arnaudemenard@gallet.org",
             "grenieradele@voila.fr"
@@ -28,11 +28,38 @@
     "date": "18/07/2021 23:53:09",
     "action": "Mail sent",
     "data": {
-        "subject": "zefee",
-        "body": "ffggg",
+        "subject": "sujet3",
+        "body": "body3",
         "recipients": [
             "etienneleger@bernier.com"
         ]
+    }
+}
+,
+{
+    "date": "18/07/2021 23:53:09",
+    "action": "Un truc inconnu pour tester",
+    "data": {
+        "un truc": "allo ?",
+        "un machin": "'skour"
+    }
+}
+,
+{
+    "date": "18/07/2021 23:53:09",
+    "action": "J'ai fais un bail s0nbr >:)",
+    "data": {
+        "un délire": "weee",
+        "une dinguerie": "okok"
+    }
+}
+,
+{
+    "date": "18/07/2021 23:53:09",
+    "action": "J'ai fais un bail s0nbr >:)",
+    "data": {
+        "un truc de ouf": "toutafé",
+        "un zboui": "xoxoxo"
     }
 }
 ]
