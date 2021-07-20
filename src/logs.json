@@ -1,65 +1,72 @@
 [
-{
-    "date": "18/07/2021 23:51:54",
+  {
+    "date": "20/07/2021 14:11:31",
     "action": "Mail sent",
     "data": {
-        "subject": "sujet1",
-        "body": "body1",
-        "recipients": [
-            "arnaudemenard@gallet.org"
-        ]
+      "subject": "s1",
+      "body": "b1",
+      "recipients": [
+        "olivierhumbert@durand.fr",
+        "rbarre@gay.org"
+      ]
     }
-}
-,
-{
-    "date": "18/07/2021 23:52:26",
+  },
+  {
+    "date": "20/07/2021 14:12:00",
     "action": "Mail sent",
     "data": {
-        "subject": "sujet2",
-        "body": "body2",
-        "recipients": [
-            "arnaudemenard@gallet.org",
-            "grenieradele@voila.fr"
-        ]
+      "subject": "s2",
+      "body": "b2",
+      "recipients": [
+        "bernardpages@orange.fr",
+        "mdufour@dbmail.com"
+      ]
     }
-}
-,
-{
-    "date": "18/07/2021 23:53:09",
+  },
+  {
+    "date": "20/07/2021 14:15:25",
     "action": "Mail sent",
     "data": {
-        "subject": "sujet3",
-        "body": "body3",
-        "recipients": [
-            "etienneleger@bernier.com"
-        ]
+      "subject": "s3",
+      "body": "b3",
+      "recipients": [
+        "benjamin96@dbmail.com",
+        "constancedevaux@free.fr"
+      ]
     }
-}
-,
-{
-    "date": "18/07/2021 23:53:09",
-    "action": "Tu sauras jamais ce que j'ai fait !",
+  },
+  {
+    "date": "20/07/2021 14:15:59",
+    "action": "Mail sent",
     "data": {
-        "un truc": "allo ?",
-        "un machin": "'skour"
+      "subject": "s4",
+      "body": "b4",
+      "recipients": [
+        "patriciaroux@orange.fr",
+        "rbarre@gay.org"
+      ]
     }
-}
-,
-{
-    "date": "18/07/2021 23:53:09",
-    "action": "J'ai fais un bail s0nbr >:)",
+  },
+  {
+    "date": "20/07/2021 14:16:27",
+    "action": "Mail sent",
     "data": {
-        "un délire": "weee",
-        "une dinguerie": "okok"
+      "subject": "s5",
+      "body": "b5",
+      "recipients": [
+        "mdufour@dbmail.com"
+      ]
     }
-}
-,
-{
-    "date": "19/07/2021 23:53:09",
-    "action": "J'ai fais un bail s0nbr >:)",
+  },
+  {
+    "date": "20/07/2021 14:23:41",
+    "action": "Mail sent",
     "data": {
-        "un truc de ouf": "toutafé",
-        "un zboui": "xoxoxo"
+      "subject": "s6",
+      "body": "s6",
+      "recipients": [
+        "arnaudemenard@gallet.org"
+      ]
     }
-}
+  }
 ]

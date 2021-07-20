@@ -1,23 +1,32 @@
 import json
+from json import JSONDecodeError
 from tkinter import *
 from tkinter.ttk import *
 
-
 def statisticsView(self):
     data = readLogFile()
-    displayTotalLogCount(self, data)
-    displayDateCounters(self, data)
-    displayActionsCounters(self, data)
-    pass
+    if data is not None and len(data) != 0:
+        displayTotalLogCount(self, data)
+        displayDatesCounters(self, data)
+        displayActionsCounters(self, data)
+    else:
+        displayNoLogsLabel(self)
+    displayRefreshViewButton(self)
+
+def displayRefreshViewButton(self):
+    sendButton = Button(self, text="Refresh statistics", width=25, command=lambda: statisticsView(self))
+    sendButton.place(x=10, y=10)
 
 def readLogFile():
-    return json.load(open("./logs.json", "r"))
+    try:
+        return json.load(open("./logs.json", "r"))
+    except JSONDecodeError:
+        pass
 
 def displayTotalLogCount(self, data):
     Label(self, text="Total log counter : " + str(len(data))).place(x=540, y=15)
-    pass
 
-def displayDateCounters(self, data):
+def displayDatesCounters(self, data):
     values = {}
     for log in data:
         date = log["date"].split(" ")[0]
@@ -36,10 +45,8 @@ def displayDateCounters(self, data):
     dates['show'] = 'headings'
     dates.place(x=10, y=50)
 
-    y = 0
-    for value in values:
+    for value in sorted(values):
         dates.insert('', 'end', values=(value.split(" ")[0], str(values[value]), str(round(values[value] / len(data) * 100))+"%"))
-        y += 1
 
 def displayActionsCounters(self, data):
     values = {}
@@ -59,7 +66,8 @@ def displayActionsCounters(self, data):
     actions['show'] = 'headings'
     actions.place(x=210, y=50)
 
-    y = 0
-    for value in values:
+    for value in sorted(values):
         actions.insert('', 'end', values=(value, str(values[value]), str(round(values[value] / len(data) * 100))+"%"))
-        y += 1
+
+def displayNoLogsLabel(self):
+    Label(self, text="File logs.json is empty, no statistics to display").place(x=500, y=15)
