@@ -5,17 +5,15 @@ from tkinter.ttk import *
 
 def statisticsView(self):
     data = readLogFile()
-    if data is not None and len(data) != 0:
+    data = data if data is not None else []
+    if data is not None:
         displayTotalLogCount(self, data)
         displayDatesCounters(self, data)
         displayActionsCounters(self, data)
-    else:
-        displayNoLogsLabel(self)
     displayRefreshViewButton(self)
 
 def displayRefreshViewButton(self):
-    sendButton = Button(self, text="Refresh statistics", width=25, command=lambda: statisticsView(self))
-    sendButton.place(x=10, y=10)
+    Button(self, text="Refresh statistics", width=25, command=lambda: statisticsView(self)).place(x=10, y=10)
 
 def readLogFile():
     try:
@@ -68,6 +66,3 @@ def displayActionsCounters(self, data):
 
     for value in sorted(values):
         actions.insert('', 'end', values=(value, str(values[value]), str(round(values[value] / len(data) * 100))+"%"))
-
-def displayNoLogsLabel(self):
-    Label(self, text="File logs.json is empty, no statistics to display").place(x=500, y=15)
