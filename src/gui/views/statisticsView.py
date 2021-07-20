@@ -29,7 +29,7 @@ def displayTotalLogCount(self, data):
 def displayDatesCounters(self, data):
     values = {}
     for log in data:
-        date = log["date"].split(" ")[0]
+        date = log["date"].split(" ")[0] # Remove timestamp, keep only date
         if date not in values.keys():
             values[date] = 1
         else:

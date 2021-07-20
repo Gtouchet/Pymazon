@@ -5,7 +5,7 @@ from src.gui.views.home import home_interface
 from src.gui.views.graphic import graphic_interface
 from src.gui.views.db import db_interface
 from src.gui.views.mailSenderView import mailSenderView
-from src.gui.views.statistics import statisticsView
+from src.gui.views.statisticsView import statisticsView
 
 
 class Application(tk.Frame):
