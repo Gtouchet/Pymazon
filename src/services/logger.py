@@ -13,7 +13,9 @@ class Logger:
         try:
             data = json.load(open("./logs.json", "r"))
         except JSONDecodeError:
-            pass
+            with open("./logs.json", "w") as logFile:
+                logFile.write("[]")
+            data = json.load(open("./logs.json", "r"))
         data.append(self.getLogDto())
         with open("./logs.json", "w") as logsFile:
             json.dump(data, logsFile, indent=2)

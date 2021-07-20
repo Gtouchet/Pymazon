@@ -24,7 +24,7 @@ def readLogFile():
         pass
 
 def displayTotalLogCount(self, data):
-    Label(self, text="Total log counter : " + str(len(data))).place(x=540, y=15)
+    Label(self, text="Total log counter : " + str(len(data))).place(x=180, y=15)
 
 def displayDatesCounters(self, data):
     values = {}
