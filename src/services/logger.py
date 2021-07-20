@@ -9,7 +9,6 @@ class Logger:
         self.writeLog()
 
     def writeLog(self):
-        data = None
         try:
             data = json.load(open("./logs.json", "r"))
         except JSONDecodeError:
