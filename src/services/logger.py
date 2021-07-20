@@ -1,6 +1,6 @@
 from datetime import datetime
 import json
-import os
+from json import JSONDecodeError
 
 class Logger:
     def __init__(self, action, data):
@@ -9,16 +9,16 @@ class Logger:
         self.writeLog()
 
     def writeLog(self):
-        with open("./logs.json", "a") as logFile:
-            if os.stat("./logs.json").st_size == 0:
-                logFile.write("[\n")
-            else:
-                logFile.seek(logFile.tell() - 1, os.SEEK_SET)
-                logFile.truncate()
-                logFile.write(",\n")
-            logFile.write(json.dumps(self.getLogDto(), indent=4))
-            logFile.write("\n]")
-
+        data = None
+        try:
+            data = json.load(open("./logs.json", "r"))
+        except JSONDecodeError:
+            with open("./logs.json", "w") as logFile:
+                logFile.write("[]")
+            data = json.load(open("./logs.json", "r"))
+        data.append(self.getLogDto())
+        with open("./logs.json", "w") as logsFile:
+            json.dump(data, logsFile, indent=2)
 
     def getLogDto(self):
         return {
