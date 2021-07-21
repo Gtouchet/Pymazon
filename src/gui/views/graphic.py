@@ -8,7 +8,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 from src.controllers.cruds.purchaseCrud.get import getPurchase
-
+from src.controllers.cruds.userCrud.get import getUser
 
 def graphic_interface(self):
 
@@ -17,9 +17,13 @@ def graphic_interface(self):
     drop_down_menu_Tag(self)
     graph_plot3(self)
     grid_info(self)
+    zipCodeGraph()
 
 
-
+def zipCodeGraph():
+    zipCodes = getZipCodesDict(getUser(0))
+    for key, value in zipCodes.items():
+        print(key, value)
 
 
 def graph_plot(self):
@@ -213,3 +217,13 @@ def drop_down_menu_Tag(self):
     labelTest = tk.Label(text="", font=('Helvetica', 12), fg='red')
     labelTest.place(anchor=CENTER)
 
+
+def getZipCodesDict(users):
+    zipCodesDict = {}
+    for user in users:
+        zipCode = user.address.split("\n")[1][:2]
+        if zipCode not in zipCodesDict.keys():
+            zipCodesDict[zipCode] = 1
+        else:
+            zipCodesDict[zipCode] += 1
+    return zipCodesDict
