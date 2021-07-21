@@ -7,6 +7,8 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+from src.controllers.cruds.purchaseCrud.get import getPurchase
+
 
 def graphic_interface(self):
 
@@ -89,21 +91,27 @@ def graph_plot3(self):
 
 
 def grid_info(self):
-    resultat = [(0, "france", "60M", "250M"), (1, "belgique", "50M", "250M"), (2, "amsterdam", "80M", "500M")]
+
+    purchases = getPurchase(0)
+
 
     # header
-    tableau = Treeview(self, columns=('Pays', 'NP', "CA"))
-    tableau.heading('Pays', text='Pays')
-    tableau.heading('NP', text="Nombre d'habitant")
-    tableau.heading('CA', text="Chiffre d'affaire")
-    tableau[
-        'show'] = 'headings'  # sans ceci, il y avait une colonne vide à gauche qui a pour rôle d'afficher le paramètre "text" qui peut être spécifié lors du insert
+    tableau = Treeview(self, columns=('Nom', 'PD', "SD","RD","S","DA","U","P"))
+    tableau.heading('Nom', text='Nom')
+    tableau.heading('PD', text="purchaseDate")
+    tableau.heading('SD', text="sendingDate")
+    tableau.heading('RD', text="receptionDate")
+    tableau.heading('S', text='status')
+    tableau.heading('DA', text="deliveryAddress")
+    tableau.heading('U', text="user")
+    tableau.heading('P', text='product')
+
+    tableau['show'] = 'headings'  # sans ceci, il y avait une colonne vide à gauche qui a pour rôle d'afficher le paramètre "text" qui peut être spécifié lors du insert
     tableau.pack(padx=3, pady=(0, 2))
 
     # content
-    for enreg in resultat:
-        # chaque ligne n'a pas de parent, est ajoutée à la fin de la liste, utilise le champ id comme identifiant et on fournit les valeurs pour chacune des colonnes du tableau
-        tableau.insert('', 'end', iid=enreg[0], values=(enreg[1], enreg[2], enreg[3]))
+    for purch in purchases:
+        tableau.insert(END, [purch.name, purch.purchaseDate, purch.sendingDate,purch.receptionDate,purch.status,purch.deliveryAddress,purch.user,purch.product])
 
     tableau.place(relx=0.7, rely=0.80, anchor=CENTER)
 
