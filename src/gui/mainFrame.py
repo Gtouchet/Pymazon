@@ -14,7 +14,8 @@ class Application(tk.Frame):
         self.master = master
         self.pack()
         master.title("Pymazon")
-        master.geometry("1250x800")
+        master.geometry("1270x850")
+        master.resizable(False, False)
         tab_control = ttk.Notebook(master)
 
         #init onglet

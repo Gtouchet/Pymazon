@@ -17,51 +17,62 @@ def graphic_interface(self):
     drop_down_menu_Tag(self)
     graph_plot3(self)
     grid_info(self)
-    zipCodeGraph()
 
-
-def zipCodeGraph():
-    zipCodes = getZipCodesDict(getUser(0))
-    for key, value in zipCodes.items():
-        print(key, value)
 
 
 def graph_plot(self):
-    self.fig = plt.figure(figsize=(6, 5), dpi=100)
+    self.fig = plt.figure(figsize=(24, 12), dpi=100)
     self.fig.set_size_inches(5, 3)
+    zipCodes = getZipCodesDict(getUser(0))
+    labels = []
+    sizes = []
 
-    # Data to plot
-    labels = 'france', 'belgique', 'amsterdam'
-    sizes = [50, 25, 25]
-    colors = ['gold', 'yellowgreen', 'lightcoral', 'lightskyblue', 'Orange', 'red']
-    explode = (0, 0.2, 0)  # explode 1st slice (Ireland), makes it more prominent
+    count = 0
+    for key, value in zipCodes.items():
+        cp = str(key + "000")
+        labels.insert(count, cp)
+        sizes.insert(count, int(value))
+        count = +1
+
+
 
     # Plot pie chart
-    plt.pie(sizes, explode=explode, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=140)
-
+    plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=440)
+    plt.ylabel('Utilisateur')
+    plt.xlabel('code postal')
     plt.axis('equal')  # creates the pie chart like a circle
 
     canvasRound = FigureCanvasTkAgg(self.fig, master=self)
     canvasRound.draw()
     canvasRound.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)  # show the barchart on the ouput window
 
-    def closeCanvas():
-        canvasRound.delete('ALL')
+
 
 
 def graph_plot2(self):
-    self.fig2 = plt.figure(figsize=(5, 5), dpi=80)
-    labels = ("france", "belgique", "amsterdam")
+    self.fig2 = plt.figure(figsize=(7, 5), dpi=100)
+    zipCodes = getZipCodesDict(getUser(0))
+    labels = list()
+    countrysum = []
+    count = 0
+
+    for key, value in zipCodes.items():
+        cp = str(key + "000")
+        labels.insert(count, cp)
+
+        countrysum.insert(count,int(value))
+        count = +1
+
     labelpos = np.arange(len(labels))
-    countrysum = [0, 504, 420]
+
 
     ##This section formats the barchart for output
 
     plt.bar(labelpos, countrysum, align='center', alpha=1.0)
     plt.xticks(labelpos, labels)
-    plt.ylabel('Volume')
-    plt.xlabel('Country')
-    plt.tight_layout(pad=3.2, w_pad=0.5, h_pad=0.1)
+    plt.ylabel('Utilisateur')
+    plt.xlabel('code postal')
+    plt.tight_layout(pad=19.2, w_pad=30, h_pad=30)
     plt.title('Volumes of product sold')
     plt.xticks(rotation=0, horizontalalignment="center")
 
@@ -80,11 +91,21 @@ def graph_plot2(self):
 
 
 def graph_plot3(self):
-    self.fig3 = Figure(figsize=(5, 4), dpi=100)
-    t = ["france", "belgique", "amsterdam"]
-    s = [0, 504, 420]
-    self.fig3.add_subplot(111).plot(t, s)
+    self.fig3 = plt.figure(figsize=(7, 5), dpi=100)
+    zipCodes = getZipCodesDict(getUser(0))
+    t = []
+    s = []
+    count = 0
+    for key, value in zipCodes.items():
+        cp = str(key + "000")
+        t.insert(count, cp)
+        s.insert(count, int(value))
+        count = +1
 
+
+    self.fig3.add_subplot(111).plot(t, s)
+    plt.ylabel('Utilisateur')
+    plt.xlabel('code postal')
     canvas = FigureCanvasTkAgg(self.fig3, master=self)  # A tk.DrawingArea.
     canvas.draw()
     canvas.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
@@ -100,7 +121,7 @@ def grid_info(self):
 
 
     # header
-    tableau = Treeview(self, columns=('Nom', 'PD', "SD","RD","S","DA","U","P"))
+    tableau = Treeview(self, columns=('Nom', 'PD', "SD","RD","S","DA","U","P"),height=13)
     tableau.column("Nom", width=200, anchor=W)
     tableau.heading('Nom', text='Nom')
 
@@ -131,7 +152,7 @@ def grid_info(self):
     # content
     for purch in purchases:
         tableau.insert('', 'end', values=(purch.name, purch.purchaseDate, purch.sendingDate,purch.receptionDate,purch.status,purch.deliveryAddress,purch.user,purch.product))
-    tableau.place(relx=0.5, rely=0.80, anchor=CENTER)
+    tableau.place(relx=0.5, rely=0.85, anchor=CENTER)
 
 
 def drop_down_menu_graph(self):
@@ -221,7 +242,7 @@ def drop_down_menu_Tag(self):
 def getZipCodesDict(users):
     zipCodesDict = {}
     for user in users:
-        zipCode = user.address.split("\n")[1][:2]
+        zipCode = user.address.split("\n")[1][:1]
         if zipCode not in zipCodesDict.keys():
             zipCodesDict[zipCode] = 1
         else:
