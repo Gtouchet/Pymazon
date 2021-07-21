@@ -23,8 +23,8 @@ def graphic_interface(self):
 
 
 def graph_plot(self):
-    fig = plt.figure(figsize=(6, 5), dpi=100)
-    fig.set_size_inches(5, 3)
+    self.fig = plt.figure(figsize=(6, 5), dpi=100)
+    self.fig.set_size_inches(5, 3)
 
     # Data to plot
     labels = 'france', 'belgique', 'amsterdam'
@@ -37,7 +37,7 @@ def graph_plot(self):
 
     plt.axis('equal')  # creates the pie chart like a circle
 
-    canvasRound = FigureCanvasTkAgg(fig, master=self)
+    canvasRound = FigureCanvasTkAgg(self.fig, master=self)
     canvasRound.draw()
     canvasRound.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)  # show the barchart on the ouput window
 
@@ -46,7 +46,7 @@ def graph_plot(self):
 
 
 def graph_plot2(self):
-    fig = plt.figure(figsize=(5, 5), dpi=80)
+    self.fig2 = plt.figure(figsize=(5, 5), dpi=80)
     labels = ("france", "belgique", "amsterdam")
     labelpos = np.arange(len(labels))
     countrysum = [0, 504, 420]
@@ -68,26 +68,26 @@ def graph_plot2(self):
     plt.show()
 
     ## This section draws a canvas to allow the barchart to appear in it
-    canvasbar = FigureCanvasTkAgg(fig, master=self)
+    canvasbar = FigureCanvasTkAgg(self.fig2, master=self)
     canvasbar.draw()
     canvasbar.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
 
-    def closeCanvas():
-        canvasbar.delete('ALL')
+
 
 
 def graph_plot3(self):
-    fig = Figure(figsize=(5, 4), dpi=100)
+    self.fig3 = Figure(figsize=(5, 4), dpi=100)
     t = ["france", "belgique", "amsterdam"]
     s = [0, 504, 420]
-    fig.add_subplot(111).plot(t, s)
+    self.fig3.add_subplot(111).plot(t, s)
 
-    canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
+    canvas = FigureCanvasTkAgg(self.fig3, master=self)  # A tk.DrawingArea.
     canvas.draw()
     canvas.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
 
-    def closeCanvas():
-        canvas.delete('ALL')
+
+
+
 
 
 def grid_info(self):
@@ -97,13 +97,28 @@ def grid_info(self):
 
     # header
     tableau = Treeview(self, columns=('Nom', 'PD', "SD","RD","S","DA","U","P"))
+    tableau.column("Nom", width=200, anchor=W)
     tableau.heading('Nom', text='Nom')
+
+    tableau.column("PD", width=200, anchor=W)
     tableau.heading('PD', text="purchaseDate")
+
+    tableau.column("SD", width=200, anchor=W)
     tableau.heading('SD', text="sendingDate")
+
+    tableau.column("RD", width=200, anchor=W)
     tableau.heading('RD', text="receptionDate")
+
+    tableau.column("S", width=50, anchor=W)
     tableau.heading('S', text='status')
+
+    tableau.column("DA", width=200, anchor=W)
     tableau.heading('DA', text="deliveryAddress")
+
+    tableau.column("U", width=50, anchor=W)
     tableau.heading('U', text="user")
+
+    tableau.column("P", width=50, anchor=W)
     tableau.heading('P', text='product')
 
     tableau['show'] = 'headings'  # sans ceci, il y avait une colonne vide à gauche qui a pour rôle d'afficher le paramètre "text" qui peut être spécifié lors du insert
@@ -111,9 +126,8 @@ def grid_info(self):
 
     # content
     for purch in purchases:
-        tableau.insert(END, [purch.name, purch.purchaseDate, purch.sendingDate,purch.receptionDate,purch.status,purch.deliveryAddress,purch.user,purch.product])
-
-    tableau.place(relx=0.7, rely=0.80, anchor=CENTER)
+        tableau.insert('', 'end', values=(purch.name, purch.purchaseDate, purch.sendingDate,purch.receptionDate,purch.status,purch.deliveryAddress,purch.user,purch.product))
+    tableau.place(relx=0.5, rely=0.80, anchor=CENTER)
 
 
 def drop_down_menu_graph(self):
@@ -125,6 +139,7 @@ def drop_down_menu_graph(self):
 
     ]
 
+    purchases = getPurchase(0)
 
     variable = tk.StringVar(self)
     variable.set(OptionList[0])
@@ -141,10 +156,16 @@ def drop_down_menu_graph(self):
     def callback(*args):
         if format(variable.get()) == "graph_round":
             graph_plot(self)
+            self.fig2.close()
+            self.fig3.close()
         elif format(variable.get()) == "graph_bar":
             graph_plot2(self)
+            self.fig.close()
+            self.fig3.close()
         elif format(variable.get()) == "graph_linear":
             graph_plot3(self)
+            self.fig.close()
+            self.fig2.close()
 
 
 
