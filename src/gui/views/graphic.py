@@ -7,14 +7,16 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
+from src.controllers.cruds.categoryCrud.get import getCategory, getCategoryTags, getCategoryWithName
 from src.controllers.cruds.purchaseCrud.get import getPurchase
+from src.controllers.cruds.tagCrud.get import getTag
 from src.controllers.cruds.userCrud.get import getUser
 
 def graphic_interface(self):
 
     drop_down_menu_graph(self)
     drop_down_menu_Categorie(self)
-    drop_down_menu_Tag(self)
+    # drop_down_menu_Tag(self)
     graph_plot3(self)
     grid_info(self)
 
@@ -193,18 +195,14 @@ def drop_down_menu_graph(self):
 
 
 def drop_down_menu_Categorie(self):
-    OptionList = [
-        "Category",
-        "test2",
-        "test3",
-        "test4"
-    ]
-
+    categories = []
+    for category in getCategory(0):
+        categories.append(category.name)
 
     variable = tk.StringVar(self)
-    variable.set(OptionList[0])
+    variable.set(categories[0])
 
-    opt = tk.OptionMenu(self, variable, *OptionList)
+    opt = tk.OptionMenu(self, variable, *categories)
     opt.config(width=10, font=('Helvetica', 12))
     opt.place(relx=0.15, rely=0.05, anchor=CENTER)
 
@@ -212,19 +210,21 @@ def drop_down_menu_Categorie(self):
     labelTest.place(anchor=CENTER)
 
 
-def drop_down_menu_Tag(self):
-    OptionList = [
-        "TAG",
-        "test2",
-        "test3",
-        "test4"
-    ]
+    def callback(*args):
+        drop_down_menu_Tag(self, format(variable.get()))
 
+    variable.trace("w", callback)
+
+def drop_down_menu_Tag(self, category):
+    optionList = []
+    categoryModel = getCategoryWithName(category)
+    for tag in getCategoryTags(categoryModel[0]):
+        optionList.append(tag.name)
 
     variable = tk.StringVar(self)
-    variable.set(OptionList[0])
+    variable.set(optionList[0])
 
-    opt = tk.OptionMenu(self, variable, *OptionList)
+    opt = tk.OptionMenu(self, variable, *optionList)
     opt.config(width=10, font=('Helvetica', 12))
     opt.place(relx=0.25, rely=0.05, anchor=CENTER)
 
@@ -235,9 +235,10 @@ def drop_down_menu_Tag(self):
 def getZipCodesDict(users):
     zipCodesDict = {}
     for user in users:
-        zipCode = user.address.split("\n")[1][:1]
-        if zipCode not in zipCodesDict.keys():
-            zipCodesDict[zipCode] = 1
-        else:
-            zipCodesDict[zipCode] += 1
+        if user.address != "":
+            zipCode = user.address.split("\n")[1][:1]
+            if zipCode not in zipCodesDict.keys():
+                zipCodesDict[zipCode] = 1
+            else:
+                zipCodesDict[zipCode] += 1
     return zipCodesDict
