@@ -1,6 +1,7 @@
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from src.services.logger import Logger
 
 class MailSender:
     def __init__(self, recipients, subject, body):
@@ -8,6 +9,12 @@ class MailSender:
         self.subject = subject
         self.body = body
         self.sendMail()
+
+        Logger("Mail sent", {
+            "subject": self.subject,
+            "body": self.body,
+            "recipients": self.recipients,
+        })
 
     def sendMail(self):
         server = smtplib.SMTP_SSL("smtp.gmail.com", 465)

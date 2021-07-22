@@ -27,3 +27,8 @@ class GenerateData:
 
     def generateNewPurchase(self, nbPurchase):
         self.generateDataPurchase.generateData(countAllUser(), countAllProduct(), nbPurchase)
+
+    def generateNewData(self, nbUser, nbProduct, nbPurchase):
+        self.generateDataUser.generateData(nbUser)
+        self.generateDataProduct.generateData(nbProduct)
+        self.generateDataPurchase.generateData(nbUser, nbProduct, nbPurchase)

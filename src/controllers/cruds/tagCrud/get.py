@@ -8,3 +8,6 @@ def getTag(id):
     else:
         return Tag.get_by_id(id)
         # return Tag.select().select_extend(Category).where(Tag.id == id)
+
+def getTagWithName(name):
+    return Tag.select().where(Tag.name == name).execute()

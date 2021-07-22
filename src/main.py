@@ -11,9 +11,9 @@ if __name__ == "__main__":
         open("pymazon.db", "x")
         createDatabaseTables()
 
-        generateData.generateAllData(300, 500, 1000)
+        generateData.generateAllData(100, 100, 200)
 
-    if not Path("./logs.txt").exists():
-        open("logs.txt", "x")
+    if not Path("./logs.json").exists():
+        open("logs.json", "x")
 
     launchApp()
