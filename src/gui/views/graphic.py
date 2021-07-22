@@ -114,14 +114,10 @@ def drop_down_menu_graph(self):
         "graph_round",
         "graph_bar",
         "graph_linear"
-
     ]
-
 
     variable = tk.StringVar(self)
     variable.set(OptionList[0])
-
-
 
     opt = tk.OptionMenu(self, variable, *OptionList)
     opt.config(width=10, font=('Helvetica', 12))
@@ -137,10 +133,6 @@ def drop_down_menu_graph(self):
             graph_plot2(self)
         elif format(variable.get()) == "graph_linear":
             graph_plot3(self)
-
-
-
-
 
     variable.trace("w", callback)
 

@@ -15,7 +15,6 @@ class GenerateDataUser:
     def generateData(self, nbUser):
         for i in range(nbUser):
             user = User()
-            user.name = self.fake.user_name()
             user.lastName = self.fake.first_name()
             user.firstName = self.fake.last_name()
             user.address = self.fake.address()
