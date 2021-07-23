@@ -9,7 +9,8 @@ from src.controllers.cruds.categoryCrud.getCategoryWithName import getCategoryWi
 from src.controllers.cruds.productCrud.delete import deleteProduct
 from src.controllers.cruds.productCrud.get import getProduct
 from src.controllers.cruds.purchaseCrud.deletePurchaseWithProductId import deletePurchaseWithProductId
-from src.controllers.cruds.tagCrud.get import getTagWithName
+from src.controllers.cruds.tagCrud.getWithTagName import getTagWithName
+
 from src.models.product import Product
 from src.services.logger import Logger
 

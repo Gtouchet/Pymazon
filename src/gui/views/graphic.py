@@ -19,14 +19,14 @@ def graphic_interface(self):
     drop_down_menu_graph(self)
     drop_down_menu_Categorie(self)
     # drop_down_menu_Tag(self)
-    graph_plot3(self)
+    graph_plot(self,3)
     grid_info(self)
+    self.fig = None
 
 
 
-def graph_plot(self):
-    self.fig = plt.figure(figsize=(24, 12), dpi=100)
-    self.fig.set_size_inches(5, 3)
+def graph_plot(self,choise):
+    self.fig = plt.figure(figsize=(7, 5), dpi=100)
     zipCodes = getZipCodesDict(getUser(0))
     labels = []
     sizes = []
@@ -39,83 +39,48 @@ def graph_plot(self):
         count = +1
 
 
+    if choise == 1:
+        # Plot pie chart
+        self.fig.set_size_inches(7, 5)
+        plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=440)
+        plt.ylabel('Utilisateur')
+        plt.xlabel('code postal')
+        plt.axis('equal')  # creates the pie chart like a circle
 
-    # Plot pie chart
-    plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=440)
-    plt.ylabel('Utilisateur')
-    plt.xlabel('code postal')
-    plt.axis('equal')  # creates the pie chart like a circle
+        canvasRound = FigureCanvasTkAgg(self.fig, master=self)
+        canvasRound.draw()
+        canvasRound.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)  # show the barchart on the ouput window
+    elif choise == 2:
+        labelpos = np.arange(len(labels))
 
-    canvasRound = FigureCanvasTkAgg(self.fig, master=self)
-    canvasRound.draw()
-    canvasRound.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)  # show the barchart on the ouput window
+        ##This section formats the barchart for output
 
+        plt.bar(labelpos, sizes, align='center', alpha=1.0)
+        plt.xticks(labelpos, labels)
+        plt.ylabel('Utilisateur')
+        plt.xlabel('code postal')
+        plt.tight_layout(pad=19.2, w_pad=30, h_pad=30)
+        plt.xticks(rotation=0, horizontalalignment="center")
 
+        # Applies the values on the top of the bar chart
+        for index, datapoints in enumerate(sizes):
+            plt.text(x=index, y=datapoints + 0.3, s=f"{datapoints}", fontdict=dict(fontsize=10), ha='center',
+                     va='bottom')
 
+        plt.show()
 
-def graph_plot2(self):
-    self.fig2 = plt.figure(figsize=(7, 5), dpi=100)
-    zipCodes = getZipCodesDict(getUser(0))
-    labels = list()
-    countrysum = []
-    count = 0
+        ## This section draws a canvas to allow the barchart to appear in it
+        canvasbar = FigureCanvasTkAgg(self.fig, master=self)
+        canvasbar.draw()
+        canvasbar.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
 
-    for key, value in zipCodes.items():
-        cp = str(key + "000")
-        labels.insert(count, cp)
-
-        countrysum.insert(count,int(value))
-        count = +1
-
-    labelpos = np.arange(len(labels))
-
-
-    ##This section formats the barchart for output
-
-    plt.bar(labelpos, countrysum, align='center', alpha=1.0)
-    plt.xticks(labelpos, labels)
-    plt.ylabel('Utilisateur')
-    plt.xlabel('code postal')
-    plt.tight_layout(pad=19.2, w_pad=30, h_pad=30)
-    plt.title('Volumes of product sold')
-    plt.xticks(rotation=0, horizontalalignment="center")
-
-    # Applies the values on the top of the bar chart
-    for index, datapoints in enumerate(countrysum):
-        plt.text(x=index, y=datapoints + 0.3, s=f"{datapoints}", fontdict=dict(fontsize=10), ha='center', va='bottom')
-
-    plt.show()
-
-    ## This section draws a canvas to allow the barchart to appear in it
-    canvasbar = FigureCanvasTkAgg(self.fig2, master=self)
-    canvasbar.draw()
-    canvasbar.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
-
-
-
-
-def graph_plot3(self):
-    self.fig3 = plt.figure(figsize=(7, 5), dpi=100)
-    zipCodes = getZipCodesDict(getUser(0))
-    t = []
-    s = []
-    count = 0
-    for key, value in zipCodes.items():
-        cp = str(key + "000")
-        t.insert(count, cp)
-        s.insert(count, int(value))
-        count = +1
-
-
-    self.fig3.add_subplot(111).plot(t, s)
-    plt.ylabel('Utilisateur')
-    plt.xlabel('code postal')
-    canvas = FigureCanvasTkAgg(self.fig3, master=self)  # A tk.DrawingArea.
-    canvas.draw()
-    canvas.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
-
-
-
+    else:
+        self.fig.add_subplot(111).plot(labels, sizes)
+        plt.ylabel('Utilisateur')
+        plt.xlabel('code postal')
+        canvas = FigureCanvasTkAgg(self.fig, master=self)  # A tk.DrawingArea.
+        canvas.draw()
+        canvas.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
 
 
 
@@ -181,17 +146,15 @@ def drop_down_menu_graph(self):
 
     def callback(*args):
         if format(variable.get()) == "graph_round":
-            graph_plot(self)
-            self.fig2.close()
-            self.fig3.close()
+            graph_plot(self,1)
+
         elif format(variable.get()) == "graph_bar":
-            graph_plot2(self)
-            self.fig.close()
-            self.fig3.close()
+            graph_plot(self,2)
+
         elif format(variable.get()) == "graph_linear":
-            graph_plot3(self)
-            self.fig.close()
-            self.fig2.close()
+            graph_plot(self,3)
+
+
 
     variable.trace("w", callback)
 
