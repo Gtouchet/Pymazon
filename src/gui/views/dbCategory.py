@@ -5,7 +5,7 @@ from tkinter.ttk import Label
 from src.controllers.cruds.categoryCrud.create import createCategory
 from src.controllers.cruds.categoryCrud.delete import deleteCategory
 from src.controllers.cruds.categoryCrud.get import getCategory
-from src.controllers.cruds.tagCrud.delete import deleteTagWithCategoryId
+from src.controllers.cruds.tagCrud.deleteTagWithCategoryId import deleteTagWithCategoryId
 from src.models.category import Category
 from src.services.logger import Logger
 

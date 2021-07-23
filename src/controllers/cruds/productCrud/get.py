@@ -6,3 +6,5 @@ def getProduct(id):
         return Product.select()
     else:
         return Product.get_by_id(id)
+
+

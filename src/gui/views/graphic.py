@@ -7,7 +7,9 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from src.controllers.cruds.categoryCrud.get import getCategory, getCategoryTags, getCategoryWithName
+from src.controllers.cruds.categoryCrud.get import getCategory
+from src.controllers.cruds.categoryCrud.getCategoryTags import getCategoryTags
+from src.controllers.cruds.categoryCrud.getCategoryWithName import getCategoryWithName
 from src.controllers.cruds.purchaseCrud.get import getPurchase
 from src.controllers.cruds.tagCrud.get import getTag
 from src.controllers.cruds.userCrud.get import getUser

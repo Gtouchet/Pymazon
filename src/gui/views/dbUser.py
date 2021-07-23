@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, END
 from tkinter.ttk import Label
 
-from src.controllers.cruds.purchaseCrud.delete import deletePurchaseWithUserId
+from src.controllers.cruds.purchaseCrud.deletePurchaseWithUserId import deletePurchaseWithUserId
 from src.controllers.cruds.userCrud.create import createUser
 from src.controllers.cruds.userCrud.delete import deleteUser
 from src.controllers.cruds.userCrud.get import getUser

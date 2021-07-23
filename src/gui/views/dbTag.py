@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import ttk, END, CENTER
 from tkinter.ttk import Label
 
-from src.controllers.cruds.categoryCrud.get import getCategory, getCategoryWithName
-from src.controllers.cruds.productCrud.delete import deleteProductWithTagId
+from src.controllers.cruds.categoryCrud.get import getCategory
+from src.controllers.cruds.categoryCrud.getCategoryWithName import getCategoryWithName
+from src.controllers.cruds.productCrud.deleteProductWithTagId import deleteProductWithTagId
 from src.controllers.cruds.tagCrud.create import createTag
 from src.controllers.cruds.tagCrud.delete import deleteTag
 from src.controllers.cruds.tagCrud.get import  getTag

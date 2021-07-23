@@ -3,10 +3,12 @@ from tkinter import ttk, END, CENTER
 from tkinter.ttk import Label
 
 from src.controllers.cruds.categoryCrud.create import createCategory
-from src.controllers.cruds.categoryCrud.get import getCategory, getCategoryWithName, getCategoryTags
+from src.controllers.cruds.categoryCrud.get import getCategory
+from src.controllers.cruds.categoryCrud.getCategoryTags import getCategoryTags
+from src.controllers.cruds.categoryCrud.getCategoryWithName import getCategoryWithName
 from src.controllers.cruds.productCrud.delete import deleteProduct
 from src.controllers.cruds.productCrud.get import getProduct
-from src.controllers.cruds.purchaseCrud.delete import deletePurchaseWithProductId
+from src.controllers.cruds.purchaseCrud.deletePurchaseWithProductId import deletePurchaseWithProductId
 from src.controllers.cruds.tagCrud.get import getTagWithName
 from src.models.product import Product
 from src.services.logger import Logger
