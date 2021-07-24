@@ -10,7 +10,9 @@ from matplotlib.figure import Figure
 from src.controllers.cruds.categoryCrud.get import getCategory
 from src.controllers.cruds.categoryCrud.getCategoryTags import getCategoryTags
 from src.controllers.cruds.categoryCrud.getCategoryWithName import getCategoryWithName
+from src.controllers.cruds.productCrud.getProductWithCategoryId import getProductWithCategoryId
 from src.controllers.cruds.purchaseCrud.get import getPurchase
+from src.controllers.cruds.purchaseCrud.getPurchaseWithCategoryId import getPurchaseWithCategoryId
 from src.controllers.cruds.tagCrud.get import getTag
 from src.controllers.cruds.userCrud.get import getUser
 
@@ -19,14 +21,18 @@ def graphic_interface(self):
     drop_down_menu_graph(self)
     drop_down_menu_Categorie(self)
     # drop_down_menu_Tag(self)
-    graph_plot(self,3)
-    grid_info(self)
+    graph_plot(self,3,{})
+    grid_info(self,{})
     self.fig = None
 
 
 
-def graph_plot(self,choise):
+
+def graph_plot(self,choise,dictinfo):
     self.fig = plt.figure(figsize=(7, 5), dpi=100)
+
+    ##Remplacer le zipCode par le dico souhaiter
+    ##zipCodes = dictinfo
     zipCodes = getZipCodesDict(getUser(0))
     labels = []
     sizes = []
@@ -84,10 +90,19 @@ def graph_plot(self,choise):
 
 
 
-def grid_info(self):
+def grid_info(self,dicInfo):
 
     purchases = getPurchase(0)
 
+    ##Dynamisation des donnée grace au dictionnaire
+
+    #for info in dicInfo:
+    #    tableau = Treeview(self, columns=(info.surname), height=13)
+    #    tableau.column(info.surname, width=200, anchor=W)
+    #    tableau.heading(info.surname, text=info.name)
+    #    for data in info.data:
+    #        tableau.insert('', 'end', values=(data.info.name))
+    #    tableau.place(relx=0.5, rely=0.85, anchor=CENTER)
 
     # header
     tableau = Treeview(self, columns=('Nom', 'PD', "SD","RD","S","DA","U","P"),height=13)
@@ -132,8 +147,6 @@ def drop_down_menu_graph(self):
         "graph_linear"
     ]
 
-    purchases = getPurchase(0)
-
     variable = tk.StringVar(self)
     variable.set(OptionList[0])
 
@@ -146,15 +159,11 @@ def drop_down_menu_graph(self):
 
     def callback(*args):
         if format(variable.get()) == "graph_round":
-            graph_plot(self,1)
-
+            graph_plot(self,1,{})
         elif format(variable.get()) == "graph_bar":
-            graph_plot(self,2)
-
+            graph_plot(self,2,{})
         elif format(variable.get()) == "graph_linear":
-            graph_plot(self,3)
-
-
+            graph_plot(self,3,{})
 
     variable.trace("w", callback)
 
@@ -164,6 +173,8 @@ def drop_down_menu_Categorie(self):
     for category in getCategory(0):
         categories.append(category.name)
 
+    ##Cree le dico recuperant les purchase par categorie
+    ##mettre dans le callBac le dico appellant le graph
     variable = tk.StringVar(self)
     variable.set(categories[0])
 
@@ -174,8 +185,12 @@ def drop_down_menu_Categorie(self):
     labelTest = tk.Label(text="", font=('Helvetica', 12), fg='red')
     labelTest.place(anchor=CENTER)
 
+    #Mettre un for des categories dans le callback
 
     def callback(*args):
+        #if format(variable.get()) == categorie.name:
+        #    graph_plot(self,1,dicinfo)
+        #    grid_info(self,dico)
         drop_down_menu_Tag(self, format(variable.get()))
 
     variable.trace("w", callback)
@@ -186,6 +201,8 @@ def drop_down_menu_Tag(self, category):
     for tag in getCategoryTags(categoryModel[0]):
         optionList.append(tag.name)
 
+    ##Cree le dico recuperant les purchase par Tag
+    ##mettre dans le callBac le dico appellant le graph
     variable = tk.StringVar(self)
     variable.set(optionList[0])
 
@@ -195,6 +212,13 @@ def drop_down_menu_Tag(self, category):
 
     labelTest = tk.Label(text="", font=('Helvetica', 12), fg='red')
     labelTest.place(anchor=CENTER)
+
+    # Mettre un for des categories dans le callback
+    def callback(*args):
+        # if format(variable.get()) == categorie.name:
+        #    graph_plot(self,1,dicinfo)
+        #    grid_info(self,dico)
+        drop_down_menu_Tag(self, format(variable.get()))
 
 
 def getZipCodesDict(users):
@@ -207,3 +231,6 @@ def getZipCodesDict(users):
             else:
                 zipCodesDict[zipCode] += 1
     return zipCodesDict
+
+
+
