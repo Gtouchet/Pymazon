@@ -1,4 +1,3 @@
-import os
 from tkinter import *
 import tkinter as tk
 import numpy as np
@@ -8,6 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from src.controllers.cruds.productCrud.get import getProduct
 from src.controllers.cruds.purchaseCrud.get import getPurchase
 from src.controllers.cruds.userCrud.get import getUser
+from src.services.logger import Logger
 
 
 def graphicView(self):
@@ -142,7 +142,13 @@ def displayDownloadFileButton(self):
     downloadButton.place(x=560, y=625)
 
 def downloadGraph(self):
-    plt.savefig("./downloads/" + self.subCategory + "__" + self.graphType + "__" + datetime.now().strftime("%d-%m-%Y__%Hh%Mm%Ss") + ".png")
+    filename = self.subCategory + "__" + self.graphType + "__" + datetime.now().strftime("%d-%m-%Y__%Hh%Mm%Ss") + ".png"
+    plt.savefig("./downloads/" + filename)
+    Logger("Graph downloaded", {
+        "statisticDisplayed": self.subCategory,
+        "graphType": self.graphType,
+        "filename": filename,
+    })
 
 def getUsersPerRegion():
     regionDict = {
@@ -159,13 +165,11 @@ def getUsersPerRegion():
         ("Bourgogne", (89, 58, 21, 71, 70, 25, 39, 90)): 0,
         ("Alsace", (10, 51, 8, 55, 52, 54, 57, 67, 88, 68)): 0,
     }
-
     for user in getUser(0):
         zipCode = int(user.address.split("\n")[1][:2])
         for region in regionDict.keys():
             if zipCode in region[1]:
                 regionDict[region] += 1
-
     return regionDict
 
 def getProductsPerPriceRange():
@@ -182,56 +186,46 @@ def getProductsPerPriceRange():
         (901, 1000): 0,
         (1001, 2000): 0,
     }
-
     for product in getProduct(0):
         for key in priceRangeDict.keys():
             if product.price in range(key[0], key[1]):
                 priceRangeDict[key] += 1
-
     return priceRangeDict
 
 def getProductsPerCategory():
     categoriesDict = {}
-
     for product in getProduct(0):
         if product.category.name not in categoriesDict.keys():
             categoriesDict[product.category.name] = 1
         else:
             categoriesDict[product.category.name] += 1
-
     return categoriesDict
 
 def getProductsPerTag():
     tagsDict = {}
-
     for product in getProduct(0):
         if product.tag.name not in tagsDict.keys():
             tagsDict[product.tag.name] = 1
         else:
             tagsDict[product.tag.name] += 1
-
     return tagsDict
 
 def getPurchasesPerYear():
     yearDict = {}
-
     for purchase in getPurchase(0):
         purchaseYear = str(purchase.purchaseDate)[:4]
         if purchaseYear not in yearDict.keys():
             yearDict[purchaseYear] = 1
         else:
             yearDict[purchaseYear] += 1
-
     return yearDict
 
 def getPurchasesPerUser():
     userDict = {}
-
     for purchase in getPurchase(0):
         user = purchase.user.firstName + " " + purchase.user.lastName
         if user not in userDict.keys():
             userDict[user] = 1
         else:
             userDict[user] += 1
-
     return userDict

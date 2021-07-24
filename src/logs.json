@@ -3001,5 +3001,14 @@
     "data": {
       "subject": "Create of 199--Cyclisme-Sport-69a6bbb1aad9d75c0f30e34bd0ad43eb"
     }
+  },
+  {
+    "date": "24/07/2021 17:02:59",
+    "action": "Graph downloaded",
+    "data": {
+      "statisticDisplayed": "Users per region",
+      "graphType": "Pie chart",
+      "filename": "Users per region__Pie chart__24-07-2021__17h02m58s.png"
+    }
   }
 ]
