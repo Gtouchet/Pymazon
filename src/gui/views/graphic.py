@@ -23,13 +23,13 @@ def graphic_interface(self):
     # drop_down_menu_Tag(self)
     graph_plot(self,3,{})
     grid_info(self,{})
-    self.fig = None
+    self.graph = None
 
 
 
 
 def graph_plot(self,choise,dictinfo):
-    self.fig = plt.figure(figsize=(7, 5), dpi=100)
+    self.graph = plt.figure(figsize=(7, 5), dpi=100)
 
     ##Remplacer le zipCode par le dico souhaiter
     ##zipCodes = dictinfo
@@ -47,13 +47,13 @@ def graph_plot(self,choise,dictinfo):
 
     if choise == 1:
         # Plot pie chart
-        self.fig.set_size_inches(7, 5)
+        self.graph.set_size_inches(7, 5)
         plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=440)
         plt.ylabel('Utilisateur')
         plt.xlabel('code postal')
         plt.axis('equal')  # creates the pie chart like a circle
 
-        canvasRound = FigureCanvasTkAgg(self.fig, master=self)
+        canvasRound = FigureCanvasTkAgg(self.graph, master=self)
         canvasRound.draw()
         canvasRound.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)  # show the barchart on the ouput window
     elif choise == 2:
@@ -76,15 +76,15 @@ def graph_plot(self,choise,dictinfo):
         plt.show()
 
         ## This section draws a canvas to allow the barchart to appear in it
-        canvasbar = FigureCanvasTkAgg(self.fig, master=self)
+        canvasbar = FigureCanvasTkAgg(self.graph, master=self)
         canvasbar.draw()
         canvasbar.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
 
     else:
-        self.fig.add_subplot(111).plot(labels, sizes)
+        self.graph.add_subplot(111).plot(labels, sizes)
         plt.ylabel('Utilisateur')
         plt.xlabel('code postal')
-        canvas = FigureCanvasTkAgg(self.fig, master=self)  # A tk.DrawingArea.
+        canvas = FigureCanvasTkAgg(self.graph, master=self)  # A tk.DrawingArea.
         canvas.draw()
         canvas.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
 

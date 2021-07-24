@@ -1,6 +1,6 @@
 import datetime
-
 import peewee as pw
+
 
 db = pw.SqliteDatabase('pymazon.db', pragmas={'foreign_keys': 1})
 

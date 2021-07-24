@@ -16,4 +16,3 @@ class Product(pw.Model):
 
     class Meta:
         database = db
-
