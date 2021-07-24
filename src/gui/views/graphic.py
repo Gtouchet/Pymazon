@@ -5,92 +5,142 @@ from tkinter.ttk import Treeview
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-
-from src.controllers.cruds.categoryCrud.get import getCategory
-from src.controllers.cruds.categoryCrud.getCategoryTags import getCategoryTags
-from src.controllers.cruds.categoryCrud.getCategoryWithName import getCategoryWithName
-from src.controllers.cruds.productCrud.getProductWithCategoryId import getProductWithCategoryId
+from src.controllers.cruds.productCrud.get import getProduct
 from src.controllers.cruds.purchaseCrud.get import getPurchase
-from src.controllers.cruds.purchaseCrud.getPurchaseWithCategoryId import getPurchaseWithCategoryId
-from src.controllers.cruds.tagCrud.get import getTag
 from src.controllers.cruds.userCrud.get import getUser
+from src.services.logger import Logger
+
 
 def graphic_interface(self):
-
-    drop_down_menu_graph(self)
-    drop_down_menu_Categorie(self)
-    # drop_down_menu_Tag(self)
-    graph_plot(self,3,{})
-    grid_info(self,{})
     self.graph = None
+    self.graphType = None
+    self.mainCategory = None
+    self.subCategory = None
 
+    displayDropDownMenuGraphChoice(self)
+    displayDropDownMenuMainCategoryChoice(self)
+    grid_info(self)
 
+def displayGraph(self):
+    if self.graphType is None or self.subCategory is None:
+        return
 
+    dataToDisplay = getDataToDisplay(self)
+    if dataToDisplay is None:
+        return
 
-def graph_plot(self,choise,dictinfo):
-    self.graph = plt.figure(figsize=(7, 5), dpi=100)
-
-    ##Remplacer le zipCode par le dico souhaiter
-    ##zipCodes = dictinfo
-    zipCodes = getZipCodesDict(getUser(0))
-    labels = []
-    sizes = []
-
+    stats = []
+    percents = []
     count = 0
-    for key, value in zipCodes.items():
-        cp = str(key + "000")
-        labels.insert(count, cp)
-        sizes.insert(count, int(value))
+    for key, value in dataToDisplay[0].items():
+        if value == 0:
+            continue
+        if self.subCategory == "Users per region":
+            key = key[0] # Use the region's name only
+        stats.insert(count, str(key) + " (" + str(value) + ")")
+        percents.insert(count, int(value))
         count = +1
 
+    self.graph = plt.figure(figsize=(7, 5), dpi=100)
 
-    if choise == 1:
-        # Plot pie chart
-        self.graph.set_size_inches(7, 5)
-        plt.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=440)
-        plt.ylabel('Utilisateur')
-        plt.xlabel('code postal')
-        plt.axis('equal')  # creates the pie chart like a circle
+    if self.graphType == "Pie chart":
+        plt.pie(percents, labels=stats, autopct='%1.1f%%')
+        plt.axis('equal')
 
-        canvasRound = FigureCanvasTkAgg(self.graph, master=self)
-        canvasRound.draw()
-        canvasRound.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)  # show the barchart on the ouput window
-    elif choise == 2:
-        labelpos = np.arange(len(labels))
-
-        ##This section formats the barchart for output
-
-        plt.bar(labelpos, sizes, align='center', alpha=1.0)
-        plt.xticks(labelpos, labels)
-        plt.ylabel('Utilisateur')
-        plt.xlabel('code postal')
-        plt.tight_layout(pad=19.2, w_pad=30, h_pad=30)
-        plt.xticks(rotation=0, horizontalalignment="center")
-
-        # Applies the values on the top of the bar chart
-        for index, datapoints in enumerate(sizes):
-            plt.text(x=index, y=datapoints + 0.3, s=f"{datapoints}", fontdict=dict(fontsize=10), ha='center',
-                     va='bottom')
-
-        plt.show()
-
-        ## This section draws a canvas to allow the barchart to appear in it
-        canvasbar = FigureCanvasTkAgg(self.graph, master=self)
-        canvasbar.draw()
-        canvasbar.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
+    elif self.graphType == "Bars":
+        labelPosition = np.arange(len(stats))
+        plt.bar(labelPosition, percents, align='center', alpha=1.0)
+        plt.xticks(labelPosition, stats)
+        plt.ylabel(dataToDisplay[1])
+        plt.xlabel(dataToDisplay[2])
+        plt.subplots_adjust(bottom=0.45)
+        plt.xticks(rotation=45, ha='right')
 
     else:
-        self.graph.add_subplot(111).plot(labels, sizes)
-        plt.ylabel('Utilisateur')
-        plt.xlabel('code postal')
-        canvas = FigureCanvasTkAgg(self.graph, master=self)  # A tk.DrawingArea.
-        canvas.draw()
-        canvas.get_tk_widget().place(relx=0.7, rely=0.3, anchor=CENTER)
+        self.graph.add_subplot(111).plot(stats, percents)
+        plt.ylabel(dataToDisplay[1])
+        plt.xlabel(dataToDisplay[2])
+        plt.subplots_adjust(bottom=0.45)
+        plt.xticks(rotation=45, ha='right')
+
+    graph = FigureCanvasTkAgg(self.graph, master=self)
+    graph.draw()
+    graph.get_tk_widget().place(x=850, y=280, anchor=CENTER)
+
+def getDataToDisplay(self):
+    if self.subCategory == "Users per region":
+        return getUsersPerRegion(), "Regions", "Users"
+    elif self.subCategory == "Products per price range":
+        return getProductsPerPriceRange(), "Price ranges", "Products"
+    elif self.subCategory == "Products per category":
+        return getProductsPerCategory(), "Categories", "Products"
+    elif self.subCategory == "Products per tag":
+        return getProductsPerTag(), "Tags", "Products"
+    elif self.subCategory == "Purchases per year":
+        return getPurchasesPerYear(), "Years", "Purchases"
+    elif self.subCategory == "Purchases per user":
+        return getPurchasesPerUser(), "Users", "Purchases"
+    else:
+        return None
+
+def displayDropDownMenuGraphChoice(self):
+    graphList = [
+        "Pie chart",
+        "Bars",
+        "Linear",
+    ]
+
+    choice = tk.StringVar(self)
+    choice.set(None)
+
+    dropDownMenu = tk.OptionMenu(self, choice, *graphList)
+    dropDownMenu.config(width=10, font=('Helvetica', 12))
+    dropDownMenu.place(x=65, y=15, anchor=CENTER)
+
+    def callback(*args):
+        self.graphType = format(choice.get())
+        displayGraph(self)
+    choice.trace("w", callback)
+
+def displayDropDownMenuMainCategoryChoice(self):
+    mainCategories = [
+        "Users",
+        "Products",
+        "Purchases",
+    ]
+
+    menu = tk.StringVar(self)
+    menu.set(None)
+
+    dropDownMenu = tk.OptionMenu(self, menu, *mainCategories)
+    dropDownMenu.config(width=10, font=('Helvetica', 12))
+    dropDownMenu.place(x=196, y=15, anchor=CENTER)
+
+    def callback(*args):
+        self.mainCategory = format(menu.get())
+        displayDropDownMenuSubCategoryChoice(self)
+    menu.trace("w", callback)
+
+def displayDropDownMenuSubCategoryChoice(self):
+    subCategories = ["Users per region"] if self.mainCategory == "Users" \
+        else ["Products per price range", "Products per category", "Products per tag"] if self.mainCategory == "Products" \
+        else ["Purchases per year", "Purchases per user"]
+
+    menu = tk.StringVar(self)
+    menu.set(None)
+
+    subCategoryDropDownMenu = tk.OptionMenu(self, menu, *subCategories)
+    subCategoryDropDownMenu.config(width=20, font=('Helvetica', 12))
+    subCategoryDropDownMenu.place(x=373, y=15, anchor=CENTER)
+
+    def callback(*args):
+        self.subCategory = format(menu.get())
+        displayGraph(self)
+        displayDownloadFileButton(self)
+    menu.trace("w", callback)
 
 
-
-def grid_info(self,dicInfo):
+def grid_info(self):
 
     purchases = getPurchase(0)
 
@@ -139,98 +189,100 @@ def grid_info(self,dicInfo):
     tableau.place(relx=0.5, rely=0.85, anchor=CENTER)
 
 
-def drop_down_menu_graph(self):
-    OptionList = [
-        "Graph",
-        "graph_round",
-        "graph_bar",
-        "graph_linear"
-    ]
-
-    variable = tk.StringVar(self)
-    variable.set(OptionList[0])
-
-    opt = tk.OptionMenu(self, variable, *OptionList)
-    opt.config(width=10, font=('Helvetica', 12))
-    opt.place(relx=0.05, rely=0.05, anchor=CENTER)
-
-    labelTest = tk.Label(text="", font=('Helvetica', 12), fg='red')
-    labelTest.place(anchor=CENTER)
-
-    def callback(*args):
-        if format(variable.get()) == "graph_round":
-            graph_plot(self,1,{})
-        elif format(variable.get()) == "graph_bar":
-            graph_plot(self,2,{})
-        elif format(variable.get()) == "graph_linear":
-            graph_plot(self,3,{})
-
-    variable.trace("w", callback)
 
 
-def drop_down_menu_Categorie(self):
-    categories = []
-    for category in getCategory(0):
-        categories.append(category.name)
 
-    ##Cree le dico recuperant les purchase par categorie
-    ##mettre dans le callBac le dico appellant le graph
-    variable = tk.StringVar(self)
-    variable.set(categories[0])
+def displayDownloadFileButton(self):
+    downloadButton = Button(self, text="Download graph", width=20, command=lambda: downloadGraph(self))
+    downloadButton.place(x=120, y=260)
 
-    opt = tk.OptionMenu(self, variable, *categories)
-    opt.config(width=10, font=('Helvetica', 12))
-    opt.place(relx=0.15, rely=0.05, anchor=CENTER)
+def downloadGraph(self):
+    filename = self.subCategory + "__" + self.graphType + "__" + datetime.now().strftime("%d-%m-%Y__%Hh%Mm%Ss") + ".png"
+    plt.savefig("./downloads/" + filename)
+    Logger("Graph downloaded", {
+        "statisticDisplayed": self.subCategory,
+        "graphType": self.graphType,
+        "filename": filename,
+    })
 
-    labelTest = tk.Label(text="", font=('Helvetica', 12), fg='red')
-    labelTest.place(anchor=CENTER)
+def getUsersPerRegion():
+    regionDict = {
+        ("Bretagne", (29, 22, 56, 35)): 0,
+        ("Normandie", (50, 14, 51, 27, 79)): 0,
+        ("Nord Pas-de-Calais", (62, 80, 60, 2, 59)): 0,
+        ("Ile-de-France", (75, 92, 93, 94, 91, 78, 95, 77)): 0,
+        ("Pays de la Loire", (44, 85, 49, 72, 53)): 0,
+        ("Centre Val de Loire", (28, 37, 41, 45, 18, 36)): 0,
+        ("Aquitaine", (79, 86, 23, 87, 16, 17, 24, 19, 33, 47, 40, 64)): 0,
+        ("Languedoc-Roussillon", (65, 32, 31, 9, 11, 66, 81, 82, 46, 12, 48, 30, 34)): 0,
+        ("Auvergne", (3, 63, 15, 43, 42, 69, 7, 1, 74, 73, 38, 26)): 0,
+        ("Côte d'Azur", (13, 4, 5, 6, 83, 84)): 0,
+        ("Bourgogne", (89, 58, 21, 71, 70, 25, 39, 90)): 0,
+        ("Alsace", (10, 51, 8, 55, 52, 54, 57, 67, 88, 68)): 0,
+    }
+    for user in getUser(0):
+        zipCode = int(user.address.split("\n")[1][:2])
+        for region in regionDict.keys():
+            if zipCode in region[1]:
+                regionDict[region] += 1
+    return regionDict
 
-    #Mettre un for des categories dans le callback
+def getProductsPerPriceRange():
+    priceRangeDict = {
+        (0, 100): 0,
+        (101, 200): 0,
+        (201, 300): 0,
+        (301, 400): 0,
+        (401, 500): 0,
+        (501, 600): 0,
+        (601, 700): 0,
+        (701, 800): 0,
+        (801, 900): 0,
+        (901, 1000): 0,
+        (1001, 2000): 0,
+    }
+    for product in getProduct(0):
+        for key in priceRangeDict.keys():
+            if product.price in range(key[0], key[1]):
+                priceRangeDict[key] += 1
+    return priceRangeDict
 
-    def callback(*args):
-        #if format(variable.get()) == categorie.name:
-        #    graph_plot(self,1,dicinfo)
-        #    grid_info(self,dico)
-        drop_down_menu_Tag(self, format(variable.get()))
+def getProductsPerCategory():
+    categoriesDict = {}
+    for product in getProduct(0):
+        if product.category.name not in categoriesDict.keys():
+            categoriesDict[product.category.name] = 1
+        else:
+            categoriesDict[product.category.name] += 1
+    return categoriesDict
 
-    variable.trace("w", callback)
+def getProductsPerTag():
+    tagsDict = {}
+    for product in getProduct(0):
+        if product.tag.name not in tagsDict.keys():
+            tagsDict[product.tag.name] = 1
+        else:
+            tagsDict[product.tag.name] += 1
+    return tagsDict
 
-def drop_down_menu_Tag(self, category):
-    optionList = []
-    categoryModel = getCategoryWithName(category)
-    for tag in getCategoryTags(categoryModel[0]):
-        optionList.append(tag.name)
+def getPurchasesPerYear():
+    yearDict = {}
+    for purchase in getPurchase(0):
+        purchaseYear = str(purchase.purchaseDate)[:4]
+        if purchaseYear not in yearDict.keys():
+            yearDict[purchaseYear] = 1
+        else:
+            yearDict[purchaseYear] += 1
+    return yearDict
 
-    ##Cree le dico recuperant les purchase par Tag
-    ##mettre dans le callBac le dico appellant le graph
-    variable = tk.StringVar(self)
-    variable.set(optionList[0])
-
-    opt = tk.OptionMenu(self, variable, *optionList)
-    opt.config(width=10, font=('Helvetica', 12))
-    opt.place(relx=0.25, rely=0.05, anchor=CENTER)
-
-    labelTest = tk.Label(text="", font=('Helvetica', 12), fg='red')
-    labelTest.place(anchor=CENTER)
-
-    # Mettre un for des categories dans le callback
-    def callback(*args):
-        # if format(variable.get()) == categorie.name:
-        #    graph_plot(self,1,dicinfo)
-        #    grid_info(self,dico)
-        drop_down_menu_Tag(self, format(variable.get()))
-
-
-def getZipCodesDict(users):
-    zipCodesDict = {}
-    for user in users:
-        if user.address != "":
-            zipCode = user.address.split("\n")[1][:1]
-            if zipCode not in zipCodesDict.keys():
-                zipCodesDict[zipCode] = 1
-            else:
-                zipCodesDict[zipCode] += 1
-    return zipCodesDict
-
+def getPurchasesPerUser():
+    userDict = {}
+    for purchase in getPurchase(0):
+        user = purchase.user.firstName + " " + purchase.user.lastName
+        if user not in userDict.keys():
+            userDict[user] = 1
+        else:
+            userDict[user] += 1
+    return userDict
 
 

@@ -1,11 +1,11 @@
 import tkinter as tk
-from tkinter import ttk, END
+from tkinter import ttk
 
-from src.gui.views.dbCategory import categoryFrameShow
-from src.gui.views.dbGenerateData import statDBFrameShow
-from src.gui.views.dbProduct import productFrameShow
-from src.gui.views.dbTag import tagFrameShow
-from src.gui.views.dbUser import userFrameShow
+from src.gui.views.db.dbCategory import categoryFrameShow
+from src.gui.views.db.dbGenerateData import statDBFrameShow
+from src.gui.views.db.dbProduct import productFrameShow
+from src.gui.views.db.dbTag import tagFrameShow
+from src.gui.views.db.dbUser import userFrameShow
 
 
 def db_interface(self):

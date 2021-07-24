@@ -3010,5 +3010,14 @@
       "graphType": "Pie chart",
       "filename": "Users per region__Pie chart__24-07-2021__17h02m58s.png"
     }
+  },
+  {
+    "date": "24/07/2021 21:22:49",
+    "action": "Graph downloaded",
+    "data": {
+      "statisticDisplayed": "Products per category",
+      "graphType": "Pie chart",
+      "filename": "Products per category__Pie chart__24-07-2021__21h22m49s.png"
+    }
   }
 ]

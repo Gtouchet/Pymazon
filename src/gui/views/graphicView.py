@@ -229,3 +229,6 @@ def getPurchasesPerUser():
         else:
             userDict[user] += 1
     return userDict
+
+
+
