@@ -2,6 +2,15 @@ from datetime import datetime
 import json
 from json import JSONDecodeError
 
+
+"""
+Logger service :
+    - Author : Guillaume Touchet
+    - Write an entry in the log file
+    - Parameters :
+        - action : string, contains the action that called the service
+        - data : data transfer object, contains the values to log (see the documentation for more information)
+"""
 class Logger:
     def __init__(self, action, data):
         self.action = action

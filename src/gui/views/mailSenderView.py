@@ -5,6 +5,15 @@ from src.models.user import User
 from src.services.mailSender import MailSender
 
 
+"""
+Mail sender view :
+    - Author : Guillaume Touchet
+    - Display the list of registered clients to allow the user to select multiple recipients
+    - Display two text fields to allow the user to enter the mail subject and body
+    - Display a button that sends the mail when clicked
+      
+      WARNING during testing : the mail is sent for real if any of the selected recipient's mail address is real
+"""
 def mailSenderView(self):
     displayUserList(self)
     displaySubjectAndBodyFields(self)

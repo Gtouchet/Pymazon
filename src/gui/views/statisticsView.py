@@ -3,6 +3,12 @@ from json import JSONDecodeError
 from tkinter import *
 from tkinter.ttk import *
 
+
+"""
+Statistics view :
+    - Author : Guillaume Touchet
+    - Display statistics by reading the log file
+"""
 def statisticsView(self):
     data = readLogFile()
     data = data if data is not None else []

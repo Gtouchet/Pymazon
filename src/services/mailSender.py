@@ -3,6 +3,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from src.services.logger import Logger
 
+
+"""
+Mail sender service :
+    - Author : Guillaume Touchet
+    - Send a mail with a subject and body to a list of recipients
+    - Parameters :
+        - recipients : list of string, containing all recipient's mail addresses
+        - subject : string, contains the subject of the mail to send
+        - body : string, contains the body of the mail to send
+"""
 class MailSender:
     def __init__(self, recipients, subject, body):
         self.recipients = recipients
