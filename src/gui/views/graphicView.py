@@ -230,10 +230,13 @@ def getUsersPerRegion():
         ("Alsace", (10, 51, 8, 55, 52, 54, 57, 67, 88, 68)): 0,
     }
     for user in getUser(0):
-        zipCode = int(user.address.split("\n")[1][:2])
-        for region in regionDict.keys():
-            if zipCode in region[1]:
-                regionDict[region] += 1
+        try:
+            zipCode = int(user.address.split("\n")[1][:2])
+            for region in regionDict.keys():
+                if zipCode in region[1]:
+                    regionDict[region] += 1
+        except:
+            print("Error while reading user", user.mailAddress, "address")
     return regionDict
 
 def getProductsPerPriceRange():

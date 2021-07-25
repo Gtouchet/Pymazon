@@ -3019,5 +3019,39 @@
       "graphType": "Pie chart",
       "filename": "Products per category__Pie chart__24-07-2021__21h22m49s.png"
     }
+  },
+  {
+    "date": "25/07/2021 17:38:29",
+    "action": "CreateUser",
+    "data": {
+      "subject": "Create of Guillaume"
+    }
+  },
+  {
+    "date": "25/07/2021 17:38:29",
+    "action": "ErrorCreateUser",
+    "data": {
+      "subject": "Data dosn't match what should be expected"
+    }
+  },
+  {
+    "date": "25/07/2021 17:39:14",
+    "action": "Mail sent",
+    "data": {
+      "subject": "test sujet",
+      "body": "test body",
+      "recipients": [
+        "guillaumetouchet921@gmail.com"
+      ]
+    }
+  },
+  {
+    "date": "25/07/2021 17:43:56",
+    "action": "Graph downloaded",
+    "data": {
+      "statisticDisplayed": "Users per region",
+      "graphType": "Pie chart",
+      "filename": "Users per region__Pie chart__25-07-2021__17h43m56s.png"
+    }
   }
 ]
