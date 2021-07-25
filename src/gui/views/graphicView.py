@@ -28,6 +28,8 @@ def graphicView(self):
     displayDropDownMenuGraphicTypeChoice(self)
     displayDropDownMenuMainCategoryChoice(self)
 
+    grid_info(self)
+
 def displayGraph(self):
     if self.graphicType is None or self.subCategory is None:
         return
@@ -72,7 +74,7 @@ def displayGraph(self):
 
     graph = FigureCanvasTkAgg(self.graphic, master=self)
     graph.draw()
-    graph.get_tk_widget().place(x=625, y=350, anchor=CENTER)
+    graph.get_tk_widget().place(x=900, y=265, anchor=CENTER)
 
 def getDataToDisplay(self):
     if self.subCategory == "Users per region":
@@ -154,7 +156,7 @@ def displayDropDownMenuSubCategoryChoice(self):
 
 def displayDownloadFileButton(self):
     downloadButton = Button(self, text="Download graph", width=20, command=lambda: downloadGraph(self))
-    downloadButton.place(x=560, y=625)
+    downloadButton.place(x=200, y=260)
 
 def downloadGraph(self):
     filename = self.subCategory + "__" + self.graphicType + "__" + datetime.now().strftime("%d-%m-%Y__%Hh%Mm%Ss") + ".png"
