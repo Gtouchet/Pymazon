@@ -25,8 +25,8 @@ class Logger:
                 logFile.write("[]")
             data = json.load(open("./logs.json", "r"))
         data.append(self.getLogDto())
-        with open("./logs.json", "w") as logsFile:
-            json.dump(data, logsFile, indent=2)
+        with open("./logs.json", "w") as logFile:
+            json.dump(data, logFile, indent=2)
 
     def getLogDto(self):
         return {
